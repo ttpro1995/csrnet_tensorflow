@@ -55,3 +55,20 @@ class DatasetSequence(Sequence):
         density = np.expand_dims(density, axis=0) # add batch dim
 
         return image, density
+
+    def get_random_crop_image(self, idx):
+        image_path = self.image_path_list[idx]
+        density_path = self.density_path_list[idx]
+
+        density = load_density(density_path)
+        image = np.array(Image.open(image_path, "r").convert("RGB"))
+        density = np.expand_dims(density, axis=3)  # add channel dim
+
+        if self.random_crop_size is not None:
+            print("crop ", self.random_crop_size)
+            image, density = random_crop(image, density, self.random_crop_size)
+
+        image = np.expand_dims(image, axis=0)  # add batch dim
+        density = np.expand_dims(density, axis=0)  # add batch dim
+
+        return image, density

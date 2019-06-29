@@ -1,7 +1,7 @@
 
 import numpy as np
 import glob
-from data_sequence import DatasetSequence
+from data_sequence import DatasetSequence, random_crop
 from model import build_model
 
 
@@ -14,7 +14,11 @@ if __name__ == "__main__":
     dataset = DatasetSequence(image_list, density_list, random_crop_size=(224, 224))
     model = build_model()
 
-    for image, density in dataset:
-        model.fit(image, density)
+    # for image, density in dataset:
+    #     model.fit(image, density)
 
+
+    for e in range(100):
+        img_train, density_train = dataset.get_random_crop_image(1)
+        model.fit(img_train, density_train)
 
