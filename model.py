@@ -1,8 +1,11 @@
-from tensorflow.keras.applications.vgg16 import VGG16
-from tensorflow.keras.preprocessing import image
-from tensorflow.keras.applications.vgg19 import preprocess_input
-from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Conv2D, UpSampling2D
+# from tensorflow.keras.applications.vgg16 import VGG16
+from tensorflow.python.keras.applications.vgg16 import VGG16
+# from tensorflow.keras.models import Model
+# from tensorflow.keras.layers import Conv2D, UpSampling2D
+
+from tensorflow.python.keras.models import Model
+from tensorflow.python.keras.layers import Conv2D, UpSampling2D
+
 import numpy as np
 
 
@@ -19,4 +22,6 @@ def build_model():
     x = Conv2D(filters=64, kernel_size=(3, 3), dilation_rate=2, padding='same')(x)
     x = Conv2D(filters=1, kernel_size=(1, 1), dilation_rate=1, padding='same')(x)
     model = Model(inputs=vgg16_model.input, outputs=x)
+    model.compile(optimizer='sgd',
+                  loss="mean_squared_error", metrics=None)
     return model

@@ -1,9 +1,10 @@
 # TODO: write keras.utils.Sequence() to load image
+from tensorflow.python.keras.utils import Sequence
 
-from keras.utils import Sequence
 import numpy as np
 import h5py
 import PIL.Image as Image
+
 
 def load_density(file_path):
     gt_file = h5py.File(file_path, 'r')
@@ -25,8 +26,10 @@ class DatasetSequence(Sequence):
         density_path = self.density_path_list[idx]
 
         density = load_density(density_path)
-        image = np.array(Image.open(image_path, "r"))
+        image = np.array(Image.open(image_path, "r").convert("RGB"))
 
-        image = np.expand_dims(image, axis=0)
-        density = np.expand_dims(density, axis=0)
+        image = np.expand_dims(image, axis=0) # add batch dim
+        density = np.expand_dims(density, axis=0) # add batch dim
+        density = np.expand_dims(density, axis=3) # add channel dim
+
         return image, density
