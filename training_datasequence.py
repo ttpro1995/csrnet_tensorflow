@@ -11,7 +11,7 @@ if __name__ == "__main__":
     image_list = glob.glob(DATA_PATH+"*.jpg")
     density_list = list(map(lambda s: s.replace(".jpg", ".h5"), image_list))
 
-    dataset = DatasetSequence(image_list, density_list)
+    dataset = DatasetSequence(image_list, density_list, random_crop_size=(224, 224))
     model = build_model()
 
     for image, density in dataset:
