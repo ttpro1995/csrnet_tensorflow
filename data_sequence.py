@@ -72,3 +72,15 @@ class DatasetSequence(Sequence):
         density = np.expand_dims(density, axis=0)  # add batch dim
 
         return image, density
+
+    def get_random_crop_image_batch(self, idx, batch_size):
+        image_batch = []
+        density_batch = []
+        for i in range(batch_size):
+            image, density = self.get_random_crop_image(idx)
+            image_batch.append(image)
+            density_batch.append(density)
+        images = np.concatenate(image_batch, axis=0)
+        densities = np.concatenate(density_batch, axis=0)
+        return images, densities
+

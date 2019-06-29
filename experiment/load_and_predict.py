@@ -23,7 +23,7 @@ if __name__ == "__main__":
     image_list = glob.glob(DATA_PATH+"*.jpg")
     density_list = list(map(lambda s: s.replace(".jpg", ".h5"), image_list))
 
-    dataset = DatasetSequence(image_list, density_list, random_crop_size=(250, 250))
+    dataset = DatasetSequence(image_list, density_list, random_crop_size=(224, 224))
 
 
     img_train, density_train = dataset.get_random_crop_image(0)
